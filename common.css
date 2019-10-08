@@ -1,0 +1,339 @@
+/* 禁用iPhone中Safari的字号自动调整 */
+
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    /* 解决IOS默认滑动很卡的情况 */
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/* 禁止缩放表单 */
+
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+input {
+    resize: none;
+    border: none;
+}
+
+
+/* 取消链接高亮  */
+
+body,
+div,
+ul,
+li,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea,
+select,
+p,
+dl,
+dt,
+dd,
+a,
+img,
+button,
+form,
+table,
+th,
+tr,
+td,
+tbody,
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+
+/* 设置HTML5元素为块 */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+
+/* 图片自适应 */
+
+img {
+    -ms-interpolation-mode: bicubic;
+    /*为了照顾ie图片缩放失真*/
+}
+
+
+/* 初始化 */
+
+body,
+div,
+ul,
+li,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea,
+select,
+p,
+dl,
+dt,
+dd,
+a,
+img,
+button,
+form,
+table,
+th,
+tr,
+td,
+tbody,
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Helvetica;
+}
+
+em,
+i {
+    font-style: normal;
+}
+
+ul,
+li {
+    list-style-type: none;
+}
+
+strong {
+    font-weight: normal;
+}
+
+.clearfix:after {
+    content: "";
+    display: block;
+    visibility: hidden;
+    height: 0;
+    clear: both;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+a {
+    text-decoration: none;
+    color: #969696;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+img {
+    border: none;
+}
+
+
+/*单行溢出*/
+
+.one-txt-cut {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/*多行溢出 手机端使用*/
+
+.txt-cut {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /* -webkit-line-clamp: 2; */
+    -webkit-box-orient: vertical;
+}
+
+
+/* 移动端点击a链接出现蓝色背景问题解决 */
+
+a:link,
+a:active,
+a:visited,
+a:hover {
+    background: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.w50 {
+    width: 50%;
+}
+
+.w25 {
+    width: 25%;
+}
+
+.w20 {
+    width: 20%;
+}
+
+.w33 {
+    width: 33.333333%;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.db {
+    display: block !important;
+}
+
+.dn {
+    display: none;
+}
+
+
+/* 自定义单选框样式 */
+
+.custom-checkbox {
+    position: relative;
+    line-height: 0.5333rem;
+    font-size: 0.3467rem;
+    padding-left: 0.8rem;
+}
+
+.custom-checkbox input[type="checkbox"] {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin-right: 0.0667rem;
+}
+
+.custom-checkbox label {
+    position: relative;
+    display: inline-block;
+}
+
+.custom-checkbox label::before {
+    content: '';
+    position: absolute;
+    left: -0.8rem;
+    top: 0;
+    width: 0.5333rem;
+    height: 0.5333rem;
+    border: 0.0267rem solid #4AA3FF;
+    border-radius: 0.0267rem;
+    box-sizing: border-box;
+}
+
+.custom-checkbox span {
+    vertical-align: middle;
+}
+
+.custom-checkbox .link {
+    color: #4AA3FF;
+    text-decoration: none;
+}
+
+
+/*设置选中的input的样式*/
+
+
+/* + 是兄弟选择器,获取选中后的label元素*/
+
+.custom-checkbox input:checked+label::before {
+    background-color: #4AA3FF;
+    color: #ffffff;
+}
+
+.custom-checkbox input:checked+label::after {
+    position: absolute;
+    content: "";
+    width: 0.3rem;
+    height: 0.2rem;
+    top: 0.11rem;
+    left: -0.6667rem;
+    border-left: 0.0533rem solid #ffffff;
+    border-bottom: 0.0533rem solid #ffffff;
+    transform: rotate(-45deg);
+    box-sizing: border-box;
+}
+
+
+/* 输入框placeholder样式 */
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: #BFBFBF;
+    font-size: 0.4rem;
+}
+
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+    color: #BFBFBF;
+    font-size: 0.4rem;
+}
+
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+    color: #BFBFBF;
+    font-size: 0.4rem;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    color: #BFBFBF;
+    font-size: 0.4rem;
+}
