@@ -1,4 +1,4 @@
-(function() {
+;(function() {
     var addCssRule = function() {
         // 创建一个 style， 返回其 stylesheet 对象
         function createStyleSheet() {
@@ -37,4 +37,4 @@
         }, 2000);
     }
     window.showToast = toast;
-})()
+})();
