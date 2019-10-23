@@ -1,0 +1,90 @@
+const express = require('express');
+var proxy = require('http-proxy-middleware')
+var fs = require('fs');
+var http = require('http');
+var https = require('https');
+var privateKey = fs.readFileSync('./private.pem', 'utf8');
+var certificate = fs.readFileSync('./file.crt', 'utf8');
+var credentials = { key: privateKey, cert: certificate };
+
+
+const app = express()
+
+app.use('/scan', express.static('../scan/'))
+app.use('/test-scan', express.static('../test-scan/'))
+app.use('/more/', express.static('../mediadevices-camera-selection/'))
+app.use('/web/', express.static('../web/'))
+app.use('/vz-postloan-ui-hbzh/', express.static('../vz-postloan-peak/vz-postloan-ui/vz-postloan-ui-hbzh/'))
+app.use('/island/', express.static('../admin-web-appTemplate/'))
+
+
+
+
+
+app.use('/vzoom-common', proxy({
+    // 代理跨域目标接口
+    target: 'http://192.168.81.62:8085/',
+    changeOrigin: true,
+
+    // 修改响应头信息，实现跨域并允许带cookie
+    onProxyRes: function(proxyRes, req, res) {
+
+        res.header('Access-Control-Allow-Origin', '*')
+        res.header('Access-Control-Allow-Credentials', 'true')
+    },
+    pathRewrite: {
+        // '^/vzoom-common': '/v-common'
+    },
+    // 修改响应信息中的cookie域名
+    // cookieDomainRewrite: '192.168.81.62:8085' // 可以为false，表示不修改
+    // cookieDomainRewrite: false
+}))
+app.use('/vz-postloan-web-hbzh', proxy({
+    // 代理跨域目标接口
+    target: 'http://192.168.81.36:8185/',
+    changeOrigin: true,
+
+    // 修改响应头信息，实现跨域并允许带cookie
+    onProxyRes: function(proxyRes, req, res) {
+
+        res.header('Access-Control-Allow-Origin', '*')
+        res.header('Access-Control-Allow-Credentials', 'true')
+    },
+    pathRewrite: {
+        // '^/vzoom-common': '/v-common'
+    }
+}))
+app.use('/zengtest/wechat', proxy({
+    // 代理跨域目标接口
+    target: 'http://192.168.87.55:8079/',
+    changeOrigin: true,
+
+    // 修改响应头信息，实现跨域并允许带cookie
+    onProxyRes: function(proxyRes, req, res) {
+
+        res.header('Access-Control-Allow-Origin', '*')
+        res.header('Access-Control-Allow-Credentials', 'true')
+    },
+    pathRewrite: {
+        // '^/vzoom-common': '/v-common'
+    }
+}))
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
+var PORT = 8000;
+var SSLPORT = 8001;
+httpServer.listen(PORT, function() {
+    console.log('HTTP Server is running on: http://localhost:%s', PORT);
+});
+httpsServer.listen(SSLPORT, function() {
+    console.log('HTTPS Server is running on: https://localhost:%s', SSLPORT);
+});
+
+// Welcome
+app.get('/', function(req, res) {
+    if (req.protocol === 'https') {
+        res.status(200).send('Welcome to Safety Land!');
+    } else {
+        res.status(200).send('Welcome!');
+    }
+});
