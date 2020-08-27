@@ -14,15 +14,18 @@ import { Toast } from 'vant';
 // }
 
 // 请求超时时间
-axios.defaults.timeout = 60000;
+axios.defaults.timeout = 80000;
 
 // post请求头
 axios.defaults.headers.post['Content-Type'] = 'application/json';
+let requestRecord = {}
 
 // 请求拦截器
 axios.interceptors.request.use(
 
     config => {
+        console.log(config)
+        requestRecord[config.method + '-' + config.url] = JSON.stringify(config.data)
         if (config.showLoading) {
             Toast.loading({
                 duration: 0, // 持续展示 toast
@@ -36,8 +39,8 @@ axios.interceptors.request.use(
         // const token = store.state.token;
         // token && (config.headers.Authorization = token);
         if (!config.headers.Cookie && sessionStorage.getItem('sessionId') && sessionStorage.getItem('sessionId') != 'undefined') {
-            config.headers.Cookie = sessionStorage.getItem('sessionId')
-
+            // config.headers.Cookie = sessionStorage.getItem('sessionId')
+            document.cookie = sessionStorage.getItem('sessionId')
         }
         if (!config.headers.web_token) {
             config.headers['web-token'] = sessionStorage.getItem('sessionId')
@@ -52,7 +55,10 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(
     response => {
-        Toast.clear()
+        delete requestRecord[response.config.method + '-' + response.config.url]
+        if (Object.keys(requestRecord).length == 0) {
+            Toast.clear()
+        }
         if (response.status === 200) {
             // return Promise.resolve(response);
             console.log(response)
@@ -82,8 +88,9 @@ axios.interceptors.response.use(
     },
     // 服务器状态码不是200的情况    
     error => {
+        requestRecord = {}
         Toast.clear()
-        if (error.response.status) {
+        if (error.response && error.response.status) {
             switch (error.response.status) {
 
                 // 404请求不存在                
@@ -103,6 +110,8 @@ axios.interceptors.response.use(
                     });
             }
             return Promise.reject(error.response);
+        } else {
+            return Promise.reject('服务器响应失败');
         }
     }
 );
